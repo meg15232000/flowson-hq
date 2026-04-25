@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花鼪宇宙總部</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1a1714;
+  --ink2:#4a4540;
+  --ink3:#9a9590;
+  --bg:#ffffff;
+  --bg2:#f7f5f2;
+  --bg3:#eeebe6;
+  --border:#e5e0d8;
+  --gold:#c4973a;
+  --gold-light:#fdf6e8;
+  --s1-bg:#f0eefa;--s1:#6b4de6;
+  --s2-bg:#fff8e8;--s2:#c4830a;
+  --s3-bg:#eaf5ea;--s3:#2a8a3a;
+  --s4-bg:#e8f5ef;--s4:#0a8a5a;
+  --tag-生活事件:#fff3e8;--tag-生活事件-c:#b85a10;
+  --tag-日常觀察:#f0eefa;--tag-日常觀察-c:#5a3ac4;
+  --tag-角色特寫:#e8f5fa;--tag-角色特寫-c:#0a6a8a;
+  --tag-月份桌布:#ffe8f0;--tag-月份桌布-c:#b8104a;
+  --tag-咖啡廳系列:#eafaf0;--tag-咖啡廳系列-c:#0a8a4a;
+  --tag-互動貼文:#f5eafa;--tag-互動貼文-c:#7a0ab8;
+  --tag-月結特集:#f0f5ea;--tag-月結特集-c:#4a8a0a;
+  --tag-角色介紹:#faeaea;--tag-角色介紹-c:#b80a0a;
+}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Noto Sans TC',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── HEADER ── */
+.header{
+  padding:18px 28px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(8px);z-index:100;
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{
+  width:40px;height:40px;border-radius:8px;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.brand-name{
+  font-family:'Noto Serif TC',serif;
+  font-size:17px;font-weight:900;color:var(--ink);
+  letter-spacing:0.01em;
+}
+.brand-sub{font-size:10px;color:var(--ink3);margin-top:1px;letter-spacing:0.12em;}
+.header-right{display:flex;align-items:center;gap:20px;}
+
+/* 月份導覽 */
+.month-nav{display:flex;gap:4px;flex-wrap:wrap;}
+.mnav{
+  font-size:11px;font-weight:500;
+  padding:5px 12px;border-radius:6px;
+  border:1px solid var(--border);
+  background:transparent;cursor:pointer;
+  color:var(--ink3);
+  font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.12s;
+}
+.mnav:hover{border-color:var(--ink2);color:var(--ink);}
+.mnav.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+/* 進度 */
+.prog-wrap{display:flex;align-items:center;gap:10px;}
+.prog-text{font-size:11px;color:var(--ink3);white-space:nowrap;}
+.prog-track{width:80px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s ease;}
+
+/* ── FILTERS ── */
+.filters{
+  padding:10px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  background:var(--bg2);
+}
+.filter-label{font-size:10px;color:var(--ink3);font-weight:500;letter-spacing:0.08em;margin-right:2px;}
+.fbtn{
+  font-size:10px;font-weight:500;
+  padding:3px 10px;border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--bg);color:var(--ink3);
+  cursor:pointer;font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.12s;
+}
+.fbtn:hover{border-color:var(--ink2);color:var(--ink);}
+.fbtn.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── BOARD ── */
+.board{
+  flex:1;
+  padding:20px 28px 40px;
+  overflow-y:auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  align-items:start;
+}
+
+.col{border-radius:10px;padding:12px;border:1px solid var(--border);}
+.col-1{background:var(--s1-bg);}
+.col-2{background:var(--s2-bg);}
+.col-3{background:var(--s3-bg);}
+.col-4{background:var(--s4-bg);}
+
+.col-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.col-title{font-size:11px;font-weight:700;letter-spacing:0.1em;}
+.col-1 .col-title{color:var(--s1);}
+.col-2 .col-title{color:var(--s2);}
+.col-3 .col-title{color:var(--s3);}
+.col-4 .col-title{color:var(--s4);}
+.col-count{
+  font-size:10px;font-weight:700;
+  padding:1px 7px;border-radius:8px;
+  background:rgba(0,0,0,0.06);color:var(--ink2);
+}
+
+/* ── CARD ── */
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:11px 12px;
+  margin-bottom:7px;
+  cursor:pointer;
+  transition:box-shadow 0.12s, transform 0.12s;
+  user-select:none;
+}
+.card:hover{
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+  transform:translateY(-1px);
+}
+.card.selected{
+  border-color:var(--gold);
+  box-shadow:0 0 0 2px rgba(196,151,58,0.2);
+}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.card-pid{
+  font-size:9px;font-weight:700;letter-spacing:0.08em;
+  padding:2px 6px;border-radius:4px;
+  background:var(--bg2);color:var(--ink2);
+}
+.card-date{font-size:10px;color:var(--ink3);}
+.card-title{
+  font-size:12px;font-weight:500;color:var(--ink);
+  line-height:1.5;margin-bottom:8px;
+}
+.card-type{
+  display:inline-block;
+  font-size:9px;font-weight:500;
+  padding:2px 7px;border-radius:4px;
+}
+.card-drag-handle{
+  opacity:0;transition:opacity 0.12s;
+  color:var(--ink3);font-size:14px;cursor:grab;
+}
+.card:hover .card-drag-handle{opacity:1;}
+
+/* type colours */
+.t-生活事件{background:var(--tag-生活事件);color:var(--tag-生活事件-c);}
+.t-日常觀察{background:var(--tag-日常觀察);color:var(--tag-日常觀察-c);}
+.t-角色特寫{background:var(--tag-角色特寫);color:var(--tag-角色特寫-c);}
+.t-月份桌布{background:var(--tag-月份桌布);color:var(--tag-月份桌布-c);}
+.t-咖啡廳系列{background:var(--tag-咖啡廳系列);color:var(--tag-咖啡廳系列-c);}
+.t-互動貼文{background:var(--tag-互動貼文);color:var(--tag-互動貼文-c);}
+.t-月結特集{background:var(--tag-月結特集);color:var(--tag-月結特集-c);}
+.t-角色介紹{background:var(--tag-角色介紹);color:var(--tag-角色介紹-c);}
+
+.empty-col{
+  text-align:center;padding:20px;
+  color:var(--ink3);font-size:11px;
+  border:1px dashed var(--border);border-radius:6px;
+}
+
+/* drag */
+.col.drag-over{outline:2px dashed var(--gold);}
+.card.dragging{opacity:0.3;}
+
+/* ── DETAIL PANEL ── */
+.panel{
+  width:360px;flex-shrink:0;
+  border-left:1px solid var(--border);
+  background:var(--bg);
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+.panel.hidden{display:none;}
+
+.panel-head{
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;
+  background:var(--bg);z-index:10;
+}
+.panel-close{
+  float:right;
+  width:28px;height:28px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--ink3);cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.panel-close:hover{background:var(--bg2);}
+.panel-pid{font-size:10px;color:var(--ink3);margin-bottom:4px;letter-spacing:0.1em;}
+.panel-title{
+  font-family:'Noto Serif TC',serif;
+  font-size:15px;font-weight:700;color:var(--ink);
+  line-height:1.5;margin-bottom:10px;
+}
+.panel-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.panel-date{font-size:10px;color:var(--ink3);}
+
+.panel-body{padding:16px 20px 32px;flex:1;}
+
+.section-label{
+  font-size:9px;font-weight:700;letter-spacing:0.14em;
+  color:var(--ink3);text-transform:uppercase;
+  margin-bottom:10px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+
+/* 分鏡 */
+.frames{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.frame{display:flex;gap:10px;}
+.frame-n{
+  font-size:9px;color:var(--ink3);font-weight:500;
+  min-width:32px;padding-top:2px;flex-shrink:0;
+}
+.frame-text{font-size:12px;color:var(--ink);line-height:1.6;}
+.frame-scene{font-size:10px;color:var(--ink3);font-style:italic;margin-top:2px;line-height:1.5;}
+
+/* 金句 */
+.gold-quote{
+  font-family:'Noto Serif TC',serif;
+  font-size:12px;font-weight:700;
+  padding:10px 14px;
+  background:var(--gold-light);
+  color:#7a5a10;
+  border-radius:6px;
+  border-left:3px solid var(--gold);
+  margin-bottom:16px;
+  line-height:1.6;
+}
+
+/* 文案 */
+.caption-box{
+  background:var(--bg2);border-radius:6px;
+  padding:12px 14px;margin-bottom:10px;
+  font-size:11px;color:var(--ink2);
+  line-height:1.8;white-space:pre-line;
+}
+.copy-btn{
+  width:100%;padding:8px;border-radius:6px;
+  border:1px solid var(--border);
+  background:transparent;color:var(--ink2);
+  font-size:11px;cursor:pointer;
+  font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.12s;margin-bottom:16px;
+}
+.copy-btn:hover{background:var(--bg2);}
+.copy-btn.ok{border-color:var(--s4);color:var(--s4);}
+
+/* 狀態按鈕 */
+.status-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.sbtn{
+  padding:8px;border-radius:6px;
+  border:1px solid var(--border);
+  background:var(--bg2);color:var(--ink2);
+  font-size:11px;font-weight:500;cursor:pointer;
+  font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.12s;text-align:center;
+}
+.sbtn:hover{border-color:var(--ink2);}
+.sbtn.active{font-weight:700;}
+.sbtn[data-s="待畫"].active{background:var(--s1-bg);border-color:var(--s1);color:var(--s1);}
+.sbtn[data-s="畫中"].active{background:var(--s2-bg);border-color:var(--s2);color:var(--s2);}
+.sbtn[data-s="完稿"].active{background:var(--s3-bg);border-color:var(--s3);color:var(--s3);}
+.sbtn[data-s="已發出"].active{background:var(--s4-bg);border-color:var(--s4);color:var(--s4);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .board{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  .board{grid-template-columns:1fr;padding:12px 16px;}
+  .panel{width:100%;border-left:none;border-top:1px solid var(--border);max-height:60vh;}
+  .layout{flex-direction:column;}
+  .header{flex-wrap:wrap;gap:10px;padding:12px 16px;}
+  .filters{padding:8px 16px;}
+  .month-nav{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-mark">🌌</div>
+    <div>
+      <div class="brand-name">花鼪宇宙總部</div>
+      <div class="brand-sub">FLOWSON UNIVERSE HQ · 2026</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="month-nav" id="month-nav"></div>
+    <div class="prog-wrap">
+      <span class="prog-text" id="prog-text">0 / 0 已發出</span>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">類型</span>
+  <button class="fbtn on" data-f="全部" onclick="setFilter('全部',this)">全部</button>
+  <button class="fbtn" data-f="生活事件" onclick="setFilter('生活事件',this)">生活事件</button>
+  <button class="fbtn" data-f="日常觀察" onclick="setFilter('日常觀察',this)">日常觀察</button>
+  <button class="fbtn" data-f="角色特寫" onclick="setFilter('角色特寫',this)">角色特寫</button>
+  <button class="fbtn" data-f="月份桌布" onclick="setFilter('月份桌布',this)">月份桌布</button>
+  <button class="fbtn" data-f="咖啡廳系列" onclick="setFilter('咖啡廳系列',this)">咖啡廳系列</button>
+  <button class="fbtn" data-f="互動貼文" onclick="setFilter('互動貼文',this)">互動貼文</button>
+  <button class="fbtn" data-f="月結特集" onclick="setFilter('月結特集',this)">月結特集</button>
+</div>
+
+<div class="layout">
+  <div class="board" id="board">
+    <div class="col col-1" id="col-待畫" ondragover="onDragOver(event)" ondrop="onDrop(event,'待畫')" ondragleave="onDragLeave(event)">
+      <div class="col-head"><span class="col-title">✏️ 待畫</span><span class="col-count" id="cnt-待畫">0</span></div>
+      <div id="body-待畫"></div>
+    </div>
+    <div class="col col-2" id="col-畫中" ondragover="onDragOver(event)" ondrop="onDrop(event,'畫中')" ondragleave="onDragLeave(event)">
+      <div class="col-head"><span class="col-title">🎨 畫中</span><span class="col-count" id="cnt-畫中">0</span></div>
+      <div id="body-畫中"></div>
+    </div>
+    <div class="col col-3" id="col-完稿" ondragover="onDragOver(event)" ondrop="onDrop(event,'完稿')" ondragleave="onDragLeave(event)">
+      <div class="col-head"><span class="col-title">✅ 完稿</span><span class="col-count" id="cnt-完稿">0</span></div>
+      <div id="body-完稿"></div>
+    </div>
+    <div class="col col-4" id="col-已發出" ondragover="onDragOver(event)" ondrop="onDrop(event,'已發出')" ondragleave="onDragLeave(event)">
+      <div class="col-head"><span class="col-title">🚀 已發出</span><span class="col-count" id="cnt-已發出">0</span></div>
+      <div id="body-已發出"></div>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="panel">
+    <div class="panel-head">
+      <button class="panel-close" onclick="closePanel()">✕</button>
+      <div class="panel-pid" id="p-pid"></div>
+      <div class="panel-title" id="p-title"></div>
+      <div class="panel-meta" id="p-meta"></div>
+    </div>
+    <div class="panel-body">
+      <div class="section-label">分鏡腳本</div>
+      <div class="frames" id="p-frames"></div>
+      <div class="gold-quote" id="p-gold"></div>
+      <div class="section-label">IG 文案</div>
+      <div class="caption-box" id="p-caption"></div>
+      <button class="copy-btn" id="copy-btn" onclick="copyCaption()">📋 複製文案</button>
+      <div class="section-label">移動狀態</div>
+      <div class="status-btns">
+        <button class="sbtn" data-s="待畫" onclick="moveCard('待畫')">✏️ 待畫</button>
+        <button class="sbtn" data-s="畫中" onclick="moveCard('畫中')">🎨 畫中</button>
+        <button class="sbtn" data-s="完稿" onclick="moveCard('完稿')">✅ 完稿</button>
+        <button class="sbtn" data-s="已發出" onclick="moveCard('已發出')">🚀 已發出</button>
+      </div>
+      <div style="margin-top:16px;">
+        <button class="copy-btn" onclick="toggleEdit()" id="edit-btn">✏️ 編輯內容</button>
+      </div>
+      <div id="edit-area" style="display:none;margin-top:12px;">
+        <div class="section-label">編輯標題</div>
+        <textarea id="edit-title" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:48px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
+        <div class="section-label">編輯金句</div>
+        <textarea id="edit-gold" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:48px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
+        <div class="section-label">編輯 IG 文案</div>
+        <textarea id="edit-caption" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:120px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
+        <div class="section-label">編輯分鏡（每行一格，格式：格號｜文字｜畫面）</div>
+        <textarea id="edit-frames" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:11px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:140px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
+        <div style="display:flex;gap:6px;">
+          <button class="copy-btn" style="flex:1;" onclick="saveEdit()">💾 儲存</button>
+          <button class="copy-btn" style="flex:1;" onclick="cancelEdit()">✕ 取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STATUSES = ['待畫','畫中','完稿','已發出'];
+const MONTHS = ['四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+let currentMonth = 0;
+let currentFilter = '全部';
+let selectedId = null;
+let dragId = null;
+
+// ── 所有貼文 ──
+const posts = [
+  // 四月
+  {id:'p1',pid:'P1',month:'四月',date:'4/13（一）',type:'角色介紹',
+    title:'【花鼪宇宙】宇宙起源篇',
+    frames:[
+      {n:'封面',text:'「這是我的秘密日記。」',scene:'Mopey趴在日記本上，左右張望'},
+      {n:'第2張',text:'「我住在這裡。和兩個特別的生物一起。」',scene:'家的全景，三個角色各做各的事'},
+      {n:'第3張',text:'「第一個叫花鼪。凌晨兩點會把我搖醒說她有好主意。我每次假裝沒聽到。每次都失敗。」',scene:'深夜，花鼪眼睛發亮盯著Mopey'},
+      {n:'第4張',text:'「第二個叫福爾摩叔。看起來只是在配合她。但每次事情能成，都是因為他。」',scene:'花鼪指揮、福爾摩叔慢條斯理把事情做好'},
+      {n:'第5張',text:'「我叫Mopey。毛很長像拖把。臉看起來很憂鬱。我不覺得我憂鬱。」',scene:'Mopey正面對鏡頭，毛蓬鬆垂下'},
+      {n:'第6張',text:'「他們以為我只是一隻呆狗。這樣很好。」',scene:'Mopey在角落爪子壓著日記本，眼神銳利'},
+      {n:'第7張',text:'「這裡每天都有事發生。而我是唯一目擊者。」',scene:'Mopey側頭看向讀者'},
+    ],
+    gold:'「他們以為我只是一隻呆狗。這樣很好。」——Mopey',
+    caption:'嗨，我是Mopey。\n我是一隻狗，但我會說人話。\n這件事花鼪和福爾摩叔都不知道。\n\n這個帳號記錄我們三個的日常。\n花鼪搞事、福爾摩叔善後、我在旁邊觀察。\n就這樣。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #插畫漫畫 #生活漫畫'},
+  {id:'p2',pid:'P2',month:'四月',date:'4/15（三）',type:'生活事件',
+    title:'【Mopey事件簿】書桌組裝事件',
+    frames:[
+      {n:'封面',text:'「今天發生了一件事。我決定記錄下來。」',scene:'Mopey趴在IKEA Desk箱子裡，爪子拿著筆'},
+      {n:'第2張',text:'「書桌到了。花鼪非常興奮。說明書三十二頁。」',scene:'花鼪雙眼發光，Mopey斜眼看著說明書厚度'},
+      {n:'第3張',text:'「花鼪負責指揮。福爾摩叔負責其他所有事情。」',scene:'花鼪站在椅子上指揮，福爾摩叔蹲在地上組裝'},
+      {n:'第4張',text:'「書桌完成。但花鼪覺得太高。」',scene:'花鼪站在書桌前，比書桌矮一截，表情委屈'},
+      {n:'第5張',text:'「福爾摩叔試命調整。結果夾到手。」',scene:'福爾摩叔捧著手，花鼪瞪大眼睛'},
+      {n:'第6張',text:'「花鼪靈機一動，脫口而出：夾手他人。」',scene:'花鼪舉手，頭上有燈泡，說出「夾手他人」'},
+      {n:'第7張',text:'「我用同情的眼神看著福爾摩叔。並寫下了一切。」',scene:'Mopey趴在書桌下，花鼪在上面比讚說「讚喔！」'},
+    ],
+    gold:'「夾手他人。」——花鼪',
+    caption:'Mopey事件簿 第001頁\n\n指揮官花鼪：零件完好無損。\n執行官福爾摩叔：手指輕傷，已包紮。\n觀察員Mopey：一切盡在掌握。\n\n「夾手他人。」——花鼪，2026\n\n#Mopey事件簿 #花鼪宇宙 #台灣插畫 #生活漫畫 #情侶日常'},
+  {id:'p3',pid:'P3',month:'四月',date:'4/17（五）',type:'日常觀察',
+    title:'【Mopey觀察日記】花鼪的新書桌理論',
+    frames:[
+      {n:'封面',text:'「書桌組好後第三天。我記錄了一個新現象。」',scene:'Mopey趴在書桌旁，歪頭觀察'},
+      {n:'第2張',text:'「花鼪說有了新書桌，她一定很有效率。時間表非常詳細。」',scene:'花鼪自信展示密密麻麻的時間表'},
+      {n:'第3張',text:'「然後她坐下來。盯著空白的稿子。一個小時。」',scene:'花鼪呆坐在書桌前，Mopey在角落計時'},
+      {n:'第4張',text:'「她問：Mopey，你覺得我的問題是什麼？\n我沒有說話。答案太多，不知道從哪裡開始。」',scene:'花鼪看著Mopey，Mopey回望她，眼神意味深長'},
+    ],
+    gold:'「答案太多，我不知道從哪裡開始。」——Mopey（內心）',
+    caption:'Mopey觀察日記 #書桌入手後遺症\n\n新書桌不會直接產生創作靈感。\n但花鼪說她還在「醞釀」。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #插畫日常'},
+  {id:'p4',pid:'P4',month:'四月',date:'4/20（一）',type:'月份桌布',
+    title:'【花鼪宇宙】四月桌布 🍓 草莓塔',
+    frames:[
+      {n:'第1張',text:'「花鼪說她要幫大家畫四月桌布。我沒有回應。但我把這件事記下來了。」',scene:'Mopey趴著，花鼪拿著畫筆，旁邊有草莓塔'},
+      {n:'第2張',text:'四月桌布正圖——草莓塔主題',scene:'三個角色圍著草莓塔，春天粉嫩色調'},
+    ],
+    gold:'「花鼪說她想畫。我沒有回應。」——Mopey',
+    caption:'花鼪宇宙四月桌布 🍓\n\n甜點主題桌布 四月／草莓塔\n\n存起來用吧！\n\n#花鼪宇宙 #四月桌布 #手機桌布 #台灣插畫 #免費桌布'},
+  {id:'p5',pid:'P5',month:'四月',date:'4/22（三）',type:'生活事件',
+    title:'【Mopey事件簿】北美館事件',
+    frames:[
+      {n:'封面',text:'「今天他們去了美術館。我沒有被帶去。我把這件事記下來了。」',scene:'Mopey趴在家裡，窗外是出門的兩人'},
+      {n:'第2張',text:'「他們在展覽現場一起畫了一幅畫。我沒有看到過程。」',scene:'展覽現場，兩人各拿著筆'},
+      {n:'第3張',text:'「福爾摩叔問：你今天最有印象的作品是什麼？」',scene:'福爾摩叔認真地問'},
+      {n:'第4張',text:'「花鼪想了一秒。然後說：我自己畫的花鼪的快樂公園。」',scene:'花鼪一臉理所當然，福爾摩叔表情複雜'},
+      {n:'第5張',text:'真實畫作照片',scene:'花鼪在展覽現場畫的「花鼪的快樂公園」實際照片'},
+      {n:'第6張',text:'「福爾摩叔沒有說話。我沒有評論。但我把這件事記下來了。」',scene:'Mopey認真寫日記'},
+    ],
+    gold:'「最有印象的作品？我自己畫的。」——花鼪',
+    caption:'Mopey事件簿 北美館特刊\n\n福爾摩叔問：今天最有印象的作品是什麼？\n花鼪說：我自己畫的花鼪的快樂公園。\n\n福爾摩叔沒有說話。\nMopey沒有評論。\n但Mopey把這件事記下來了。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #插畫漫畫 #北美館'},
+  {id:'p6',pid:'P6',month:'四月',date:'4/24（五）',type:'生活事件',
+    title:'【Mopey事件簿】北美館事件番外篇',
+    frames:[
+      {n:'封面',text:'「北美館事件，補充紀錄。」',scene:'Mopey翻開日記本，寫著「番外」'},
+      {n:'待定',text:'📌 番外篇內容待填入——北美館當天還發生了什麼？告訴 Claude 補充！',scene:''},
+    ],
+    gold:'「補充紀錄。」——Mopey',
+    caption:'（根據番外故事填入後，Claude 幫你寫文案）'},
+  {id:'p7',pid:'P7',month:'四月',date:'4/27（一）',type:'生活事件',
+    title:'【Mopey事件簿】本週真實事件 ★待填入',
+    frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude，馬上幫你寫完整分鏡！',scene:''}],
+    gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p8',pid:'P8',month:'四月',date:'4/29（三）',type:'角色特寫',
+    title:'【Mopey檔案】關於我的一些說明',
+    frames:[
+      {n:'封面',text:'「有些事情需要澄清。關於我。」',scene:'Mopey正面對鏡頭'},
+      {n:'第2張',text:'「我的名字是Mopey。毛很長像拖把。臉看起來很憂鬱。」',scene:'Mopey側面圖，旁邊標示「拖把→」'},
+      {n:'第3張',text:'「我沒有在憂鬱。這只是我的臉。我試過笑。沒有人相信。」',scene:'Mopey努力笑，花鼪在旁邊問「你還好嗎」'},
+      {n:'第4張',text:'「我選擇接受這件事。並繼續我的工作。」',scene:'Mopey平靜翻開日記本'},
+    ],
+    gold:'「我試過笑。沒有人相信。」——Mopey',
+    caption:'Mopey本人澄清聲明\n\n我沒有憂鬱。\n我只是在觀察。\n\n謝謝。\n\n#Mopey #花鼪宇宙 #台灣插畫 #憂鬱臉不等於憂鬱'},
+  {id:'p9',pid:'P9',month:'四月',date:'5/2（五）',type:'日常觀察',
+    title:'【Mopey觀察日記】花鼪與拖延的戰爭',
+    frames:[
+      {n:'封面',text:'「今天花鼪說她要認真工作了。我開始計時。」',scene:'Mopey嚴肅地看著時鐘'},
+      {n:'第2張',text:'「第一分鐘：打開電腦。第三分鐘：要先喝水。第十二分鐘：開始研究水的種類。」',scene:'花鼪三格連續動作'},
+      {n:'第3張',text:'「福爾摩叔：妳去喝水了嗎？\n花鼪：我在準備。」',scene:'兩人對話，Mopey在角落記錄'},
+      {n:'第4張',text:'「我把時間記下來了。實際執行時間：0分鐘。」',scene:'Mopey寫日記'},
+    ],
+    gold:'「我在準備。」——花鼪（第12分鐘）',
+    caption:'Mopey觀察日記 #拖延研究\n\n「準備」這個詞在花鼪宇宙有特殊定義。\n我還在研究中。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #拖延症'},
+  {id:'p10',pid:'P10',month:'四月',date:'5/5（一）',type:'生活事件',
+    title:'【Mopey事件簿】本週真實事件 ★待填入',
+    frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude！',scene:''}],
+    gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p11',pid:'P11',month:'四月',date:'5/7（三）',type:'咖啡廳系列',
+    title:'【咖啡廳計畫】第一回：各畫對方',
+    frames:[
+      {n:'開場',text:'「今天他們去了咖啡廳。我沒有被帶去。他們說要各畫對方。我把這件事記下來了。」',scene:'Mopey旁白字幕'},
+      {n:'過程',text:'拍攝各自畫畫的過程，不露臉，只拍手和紙',scene:'手部特寫、咖啡廳環境'},
+      {n:'揭曉',text:'拼起來的瞬間',scene:'兩張紙拼在一起的成果'},
+      {n:'結尾',text:'「結果揭曉。Mopey沒有評論。」',scene:'Mopey旁白字幕'},
+    ],
+    gold:'「他們說要各畫對方。我把這件事記下來了。」——Mopey',
+    caption:'花鼪宇宙咖啡廳計畫 第一回\n\n今天他們各畫了對方。\n我沒有被帶去。\nMopey沒有評論。\n\n#花鼪宇宙 #咖啡廳計畫 #台灣插畫 #情侶日常'},
+  {id:'p12',pid:'P12',month:'四月',date:'5/9（五）',type:'月結特集',
+    title:'【Mopey月報】四月花鼪宇宙大事回顧',
+    frames:[
+      {n:'封面',text:'「四月結束了。我整理了紀錄。」',scene:'Mopey翻著日記本'},
+      {n:'第2張',text:'「書桌事件：福爾摩叔的手指已痊癒。書桌目前用來放雜物。」',scene:'書桌堆著東西'},
+      {n:'第3張',text:'（回顧本月其他發生的事，由你填入）',scene:''},
+      {n:'第4張',text:'「花鼪問這個月過得怎麼樣。我沒有回應。她說：你應該有在聽吧。我把這句話也記下來了。」',scene:'溫馨結尾，三個角色同框'},
+    ],
+    gold:'「我把這句話也記下來了。」——Mopey',
+    caption:'花鼪宇宙四月月報\n\n這個月謝謝你們一起來偷看。\nMopey說他會繼續寫。\n我們五月見。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫漫畫 #四月回顧'},
+  // 五月
+  {id:'p101',pid:'P101',month:'五月',date:'5/11（一）',type:'月份桌布',
+    title:'【花鼪宇宙】五月桌布 🍵 抹茶捲蛋糕',
+    frames:[{n:'第1張',text:'「五月了。花鼪說她要畫桌布。我沒有回應。但我把這件事記下來了。」',scene:'Mopey趴著，旁邊有抹茶捲蛋糕'},{n:'第2張',text:'五月桌布正圖——抹茶捲蛋糕主題',scene:'三個角色與抹茶捲蛋糕，初夏清爽'}],
+    gold:'「五月了。」——Mopey',
+    caption:'花鼪宇宙五月桌布 🍵\n\n甜點主題桌布 五月／抹茶捲蛋糕\n\n存起來用吧！\n\n#花鼪宇宙 #五月桌布 #手機桌布 #台灣插畫 #免費桌布'},
+  {id:'p102',pid:'P102',month:'五月',date:'5/13（三）',type:'日常觀察',
+    title:'【Mopey觀察日記】書桌使用報告',
+    frames:[{n:'封面',text:'「書桌組好後過了一段時間。我決定做一份使用報告。」',scene:''},{n:'第2張',text:'「預期用途：創作。實際用途：放東西。」',scene:'書桌堆滿雜物'},{n:'第3張',text:'「花鼪說她在醞釀。已經醞釀了十二天。」',scene:'花鼪發呆，Mopey計時'},{n:'第4張',text:'「福爾摩叔的手已痊癒。他沒有提起書桌的事。我覺得這樣很好。」',scene:''}],
+    gold:'「預期用途：創作。實際用途：放東西。」——Mopey',
+    caption:'Mopey書桌使用報告\n\n第一個月觀察結果如上。\n花鼪說這是正常的。\n我把這句話也記下來了。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #插畫漫畫'},
+  {id:'p103',pid:'P103',month:'五月',date:'5/15（五）',type:'生活事件',title:'【Mopey事件簿】本週真實事件 ★待填入',frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude！',scene:''}],gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p104',pid:'P104',month:'五月',date:'5/18（一）',type:'生活事件',title:'【Mopey事件簿】本週真實事件 ★待填入',frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude！',scene:''}],gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p105',pid:'P105',month:'五月',date:'5/20（三）',type:'角色特寫',
+    title:'【花鼪檔案】關於花鼪的一些說明',
+    frames:[{n:'封面',text:'「有些事情需要補充說明。關於花鼪。」',scene:''},{n:'第2張',text:'「她隨時都有新想法。多到我記不完。」',scene:''},{n:'第3張',text:'「她失敗了不會難過。會立刻想出下一個計畫。」',scene:''},{n:'第4張',text:'「她不是在生活。她是在做實驗。我是對照組。」',scene:''}],
+    gold:'「她不是在生活。她是在做實驗。」——Mopey',
+    caption:'花鼪觀察報告 第一頁\n\n觀察對象：花鼪\n危險程度：中等（主要危及福爾摩叔）\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫'},
+  {id:'p106',pid:'P106',month:'五月',date:'5/22（五）',type:'日常觀察',
+    title:'【Mopey觀察日記】福爾摩叔的某個習慣',
+    frames:[{n:'封面',text:'「我發現了一件事。關於福爾摩叔。」',scene:''},{n:'第2張',text:'「每天早上，他都會在同一個地方坐一段時間。不說話。不做事。」',scene:''},{n:'第3張',text:'「花鼪問：在做什麼？他說：想事情。花鼪問：想什麼？他說：事情。」',scene:''},{n:'第4張',text:'「我沒有問。但我覺得這就是他為什麼總是知道該怎麼做的原因。」',scene:''}],
+    gold:'「想什麼？事情。」——福爾摩叔',
+    caption:'Mopey觀察日記 #福爾摩叔研究\n\n福爾摩叔每天都在想事情。\n他不說是什麼事情。\n我覺得這樣也好。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫'},
+  {id:'p107',pid:'P107',month:'五月',date:'5/25（一）',type:'生活事件',title:'【Mopey事件簿】本週真實事件 ★待填入',frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude！',scene:''}],gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p108',pid:'P108',month:'五月',date:'5/27（三）',type:'日常觀察',
+    title:'【Mopey觀察日記】花鼪的計畫失敗了',
+    frames:[{n:'封面',text:'「今天花鼪的計畫失敗了。我記錄了全程。」',scene:''},{n:'第2張',text:'「她沉默了三十秒。這是我見過她最安靜的時候。」',scene:''},{n:'第3張',text:'「然後她說：我有另一個想法。福爾摩叔放下手邊的事。」',scene:''},{n:'第4張',text:'「計畫A失敗。計畫B啟動。觀察繼續。」',scene:''}],
+    gold:'「計畫A失敗。計畫B啟動。觀察繼續。」——Mopey',
+    caption:'Mopey觀察日記 #失敗研究\n\n花鼪不怕失敗這件事。\n我記錄下來了。供參考。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫'},
+  {id:'p109',pid:'P109',month:'五月',date:'5/29（五）',type:'生活事件',title:'【Mopey事件簿】本週真實事件 ★待填入',frames:[{n:'待定',text:'📌 把這週花鼪做的有趣事情告訴 Claude！',scene:''}],gold:'真實事件最有共鳴',caption:'（根據真實事件填入）'},
+  {id:'p110',pid:'P110',month:'五月',date:'6/1（一）',type:'咖啡廳系列',title:'【咖啡廳計畫】第二回 ★待定主題',frames:[{n:'待定',text:'📌 五月咖啡廳計畫主題待定',scene:''}],gold:'每月一次咖啡廳計畫',caption:'（根據當月主題填入）'},
+  {id:'p111',pid:'P111',month:'五月',date:'6/3（三）',type:'月結特集',
+    title:'【Mopey月報】五月花鼪宇宙大事回顧',
+    frames:[{n:'封面',text:'「五月結束了。我整理了紀錄。」',scene:''},{n:'第2張',text:'（回顧本月發生的事，由你填入）',scene:''},{n:'第3張',text:'「花鼪說六月會更好。我沒有回應。但我會繼續觀察。」',scene:''}],
+    gold:'「我會繼續觀察。」——Mopey',
+    caption:'花鼪宇宙五月月報\n\n五月謝謝你們繼續偷看。\nMopey說他六月還會寫。\n我們六月見。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫漫畫 #五月回顧'},
+];
+
+// 只列六月以後的簡化版本（待填入型）
+const laterMonths = [
+  {month:'六月',pid:'P201',date:'6/5（五）',type:'月份桌布',title:'六月桌布 🥭 芒果雪花冰'},
+  {month:'七月',pid:'P301',date:'7/1（三）',type:'月份桌布',title:'七月桌布 🍦 冰淇淋甜筒'},
+  {month:'八月',pid:'P401',date:'8/3（一）',type:'月份桌布',title:'八月桌布 🍮 泡芙'},
+  {month:'九月',pid:'P501',date:'9/2（三）',type:'月份桌布',title:'九月桌布 🥮 月餅'},
+  {month:'十月',pid:'P601',date:'10/2（五）',type:'月份桌布',title:'十月桌布 🎃 南瓜派'},
+  {month:'十一月',pid:'P701',date:'11/3（一）',type:'月份桌布',title:'十一月桌布 🌰 蒙布朗'},
+  {month:'十二月',pid:'P801',date:'12/3（三）',type:'月份桌布',title:'十二月桌布 🎄 聖誕樹蛋糕捲'},
+].map(p=>({...p,id:'later_'+p.pid,frames:[{n:'待定',text:'📌 內容待規劃，先告訴 Claude！',scene:''}],gold:'每月甜點桌布系列',caption:'（根據當月主題填入）'}));
+
+const allPosts = [...posts, ...laterMonths];
+
+// ── 狀態管理 ──
+function getStatus(id){ return localStorage.getItem('hq_'+id) || defaultStatus(id); }
+function setStatus(id, s){ localStorage.setItem('hq_'+id, s); }
+function defaultStatus(id){
+  if(['p1','p2','p3'].includes(id)) return '已發出';
+  if(id==='p5') return '完稿';
+  return '待畫';
+}
+
+// ── 月份 Tabs ──
+function buildMonthNav(){
+  const nav = document.getElementById('month-nav');
+  MONTHS.forEach((m,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'mnav'+(i===0?' on':'');
+    btn.textContent = m;
+    btn.onclick = ()=>{
+      currentMonth = i;
+      document.querySelectorAll('.mnav').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      closePanel();
+      render();
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function getVisiblePosts(){
+  const m = MONTHS[currentMonth];
+  return allPosts.filter(p=>{
+    const monthOk = p.month === m;
+    const typeOk = currentFilter==='全部' || p.type===currentFilter;
+    return monthOk && typeOk;
+  });
+}
+
+// ── RENDER ──
+function render(){
+  const visible = getVisiblePosts();
+  STATUSES.forEach(s=>{
+    const items = visible.filter(p=>getStatus(p.id)===s);
+    document.getElementById('cnt-'+s).textContent = items.length;
+    const body = document.getElementById('body-'+s);
+    if(!items.length){
+      body.innerHTML = '<div class="empty-col">暫無貼文</div>';
+      return;
+    }
+    body.innerHTML = items.map(p=>cardHTML(p)).join('');
+    body.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('dragstart', e=>{
+        dragId = card.dataset.id;
+        setTimeout(()=>card.classList.add('dragging'),0);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      card.addEventListener('dragend', ()=>{
+        card.classList.remove('dragging');
+        dragId = null;
+      });
+    });
+  });
+  updateProgress();
+  if(selectedId) refreshPanel();
+}
+
+function cardHTML(p){
+  const sel = selectedId===p.id ? ' selected':'';
+  return `<div class="card${sel}" draggable="true" data-id="${p.id}" onclick="openPanel('${p.id}')">
+    <div class="card-top">
+      <span class="card-pid">${p.pid}</span>
+      <span class="card-date">${p.date}</span>
+    </div>
+    <div class="card-title">${p.title}</div>
+    <span class="card-type t-${p.type}">${p.type}</span>
+  </div>`;
+}
+
+function updateProgress(){
+  const m = MONTHS[currentMonth];
+  const all = allPosts.filter(p=>p.month===m);
+  const done = all.filter(p=>getStatus(p.id)==='已發出');
+  document.getElementById('prog-text').textContent = `${done.length} / ${all.length} 已發出`;
+  document.getElementById('prog-fill').style.width = all.length ? Math.round(done.length/all.length*100)+'%' : '0%';
+}
+
+// ── PANEL ──
+function openPanel(id){
+  selectedId = id;
+  document.getElementById('panel').classList.remove('hidden');
+  refreshPanel();
+  render();
+}
+
+function refreshPanel(){
+  const p = getPostData(selectedId);
+  if(!p) return;
+  document.getElementById('p-pid').textContent = p.pid + ' · ' + p.month;
+  document.getElementById('p-title').textContent = p.title;
+  document.getElementById('p-meta').innerHTML =
+    `<span class="card-type t-${p.type}">${p.type}</span><span class="panel-date">📅 ${p.date}</span>`;
+  document.getElementById('p-frames').innerHTML = p.frames.map(f=>`
+    <div class="frame">
+      <div class="frame-n">${f.n}</div>
+      <div>
+        <div class="frame-text">${f.text.replace(/\n/g,'<br>')}</div>
+        ${f.scene?`<div class="frame-scene">畫面：${f.scene}</div>`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('p-gold').textContent = p.gold;
+  document.getElementById('p-caption').innerHTML = p.caption.replace(/\n/g,'<br>');
+  const s = getStatus(selectedId);
+  document.querySelectorAll('.sbtn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.s===s);
+  });
+}
+
+function closePanel(){
+  selectedId = null;
+  document.getElementById('panel').classList.add('hidden');
+  render();
+}
+
+function copyCaption(){
+  const p = getPostData(selectedId);
+  if(!p) return;
+  navigator.clipboard.writeText(p.caption).then(()=>{
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ 已複製！';
+    btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='📋 複製文案';btn.classList.remove('ok');},2000);
+  });
+}
+
+function moveCard(s){
+  if(!selectedId) return;
+  setStatus(selectedId, s);
+  render();
+  refreshPanel();
+}
+
+// ── DRAG ──
+function onDragOver(e){
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e){ e.currentTarget.classList.remove('drag-over'); }
+function onDrop(e, s){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(dragId){ setStatus(dragId, s); render(); if(selectedId===dragId) refreshPanel(); }
+}
+
+// ── FILTER ──
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+// ── 編輯功能 ──
+function getCustomData(id){
+  const raw = localStorage.getItem('hq_edit_'+id);
+  return raw ? JSON.parse(raw) : null;
+}
+function saveCustomData(id, data){
+  localStorage.setItem('hq_edit_'+id, JSON.stringify(data));
+}
+
+function getPostData(id){
+  const base = allPosts.find(x=>x.id===id);
+  const custom = getCustomData(id);
+  if(!custom) return base;
+  return {...base, ...custom};
+}
+
+function toggleEdit(){
+  const area = document.getElementById('edit-area');
+  const btn = document.getElementById('edit-btn');
+  if(area.style.display==='none'){
+    const p = getPostData(selectedId);
+    document.getElementById('edit-title').value = p.title;
+    document.getElementById('edit-gold').value = p.gold;
+    document.getElementById('edit-caption').value = p.caption;
+    document.getElementById('edit-frames').value = p.frames.map(f=>
+      f.n+'｜'+f.text+(f.scene?'｜'+f.scene:'')
+    ).join('\n');
+    area.style.display='block';
+    btn.textContent='▲ 收起';
+  } else {
+    area.style.display='none';
+    btn.textContent='✏️ 編輯內容';
+  }
+}
+
+function saveEdit(){
+  if(!selectedId) return;
+  const title = document.getElementById('edit-title').value.trim();
+  const gold = document.getElementById('edit-gold').value.trim();
+  const caption = document.getElementById('edit-caption').value.trim();
+  const framesRaw = document.getElementById('edit-frames').value.trim();
+  const frames = framesRaw.split('\n').filter(l=>l.trim()).map(l=>{
+    const parts = l.split('｜');
+    return {n:parts[0]||'', text:parts[1]||'', scene:parts[2]||''};
+  });
+  saveCustomData(selectedId, {title, gold, caption, frames});
+  document.getElementById('edit-area').style.display='none';
+  document.getElementById('edit-btn').textContent='✏️ 編輯內容';
+  refreshPanel();
+  render();
+}
+
+function cancelEdit(){
+  document.getElementById('edit-area').style.display='none';
+  document.getElementById('edit-btn').textContent='✏️ 編輯內容';
+}
+
+buildMonthNav();
+render();
+</script>
+</body>
+</html>
