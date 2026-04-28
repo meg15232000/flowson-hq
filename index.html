@@ -388,8 +388,23 @@ body{
         <button class="copy-btn" onclick="toggleEdit()" id="edit-btn">✏️ 編輯內容</button>
       </div>
       <div id="edit-area" style="display:none;margin-top:12px;">
+        <div class="section-label">編輯篇號</div>
+        <input id="edit-pid" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;margin-bottom:12px;background:var(--bg2);color:var(--ink);">
         <div class="section-label">編輯標題</div>
         <textarea id="edit-title" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:48px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
+        <div class="section-label">編輯日期</div>
+        <input id="edit-date" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;margin-bottom:12px;background:var(--bg2);color:var(--ink);">
+        <div class="section-label">編輯類型</div>
+        <select id="edit-type" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;margin-bottom:12px;background:var(--bg2);color:var(--ink);">
+          <option>生活事件</option>
+          <option>日常觀察</option>
+          <option>角色特寫</option>
+          <option>月份桌布</option>
+          <option>咖啡廳系列</option>
+          <option>互動貼文</option>
+          <option>月結特集</option>
+          <option>角色介紹</option>
+        </select>
         <div class="section-label">編輯金句</div>
         <textarea id="edit-gold" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:48px;margin-bottom:12px;background:var(--bg2);color:var(--ink);"></textarea>
         <div class="section-label">編輯 IG 文案</div>
@@ -759,7 +774,10 @@ function toggleEdit(){
   const btn = document.getElementById('edit-btn');
   if(area.style.display==='none'){
     const p = getPostData(selectedId);
+    document.getElementById('edit-pid').value = p.pid;
     document.getElementById('edit-title').value = p.title;
+    document.getElementById('edit-date').value = p.date;
+    document.getElementById('edit-type').value = p.type;
     document.getElementById('edit-gold').value = p.gold;
     document.getElementById('edit-caption').value = p.caption;
     document.getElementById('edit-frames').value = p.frames.map(f=>
@@ -775,7 +793,10 @@ function toggleEdit(){
 
 function saveEdit(){
   if(!selectedId) return;
+  const pid = document.getElementById('edit-pid').value.trim();
   const title = document.getElementById('edit-title').value.trim();
+  const date = document.getElementById('edit-date').value.trim();
+  const type = document.getElementById('edit-type').value;
   const gold = document.getElementById('edit-gold').value.trim();
   const caption = document.getElementById('edit-caption').value.trim();
   const framesRaw = document.getElementById('edit-frames').value.trim();
@@ -783,7 +804,7 @@ function saveEdit(){
     const parts = l.split('｜');
     return {n:parts[0]||'', text:parts[1]||'', scene:parts[2]||''};
   });
-  saveCustomData(selectedId, {title, gold, caption, frames});
+  saveCustomData(selectedId, {pid, title, date, type, gold, caption, frames});
   document.getElementById('edit-area').style.display='none';
   document.getElementById('edit-btn').textContent='✏️ 編輯內容';
   refreshPanel();
