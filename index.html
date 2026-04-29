@@ -507,7 +507,14 @@ const posts = [
     ],
     gold:'「花鼪的數獨生涯：第1天。第1頁。第9分鐘。結束。」——Mopey',
     caption:'Mopey事件簿 數獨事件\n\n福爾摩叔買了一本數獨。\n365天份。\n\n花鼪看著，說：這看起來很有趣。\n然後她拿走了。\n\n九分鐘後。\n\n她把數獨本還給他。\n說：我不玩了。\n\n福爾摩叔沒有說話。\nMopey沒有評論。\n\n花鼪的數獨生涯：\n第1天。第1頁。第9分鐘。結束。\n\n#花鼪宇宙 #Mopey事件簿 #台灣插畫 #插畫漫畫 #生活漫畫'},
-  {id:'p8',pid:'P8',month:'四月',date:'4/29（三）',type:'生活事件',
+  {id:'p8',pid:'P8',month:'四月',date:'4/29（三）',type:'日常觀察',
+    title:'【Mopey觀察日記】今日暫停',
+    frames:[
+      {n:'封面',text:'「今天沒有事件。我把這件事記下來了。」',scene:'Mopey趴著，日記本是空的'},
+    ],
+    gold:'「今天沒有事件。」——Mopey',
+    caption:'今天花鼪說她很忙。\nMopey沒有評論。\n下週見。\n\n#花鼪宇宙 #Mopey事件簿'},
+  {id:'p9',pid:'P9',month:'四月',date:'5/2（五）',type:'生活事件',
     title:'【Mopey事件簿】螢火蟲田野調查',
     frames:[
       {n:'封面',text:'「田野調查報告。關於螢火蟲。以及期待。」',scene:'Mopey拿著寫字板，一本正經'},
@@ -669,14 +676,15 @@ function render(){
 }
 
 function cardHTML(p){
+  const data = getPostData(p.id);
   const sel = selectedId===p.id ? ' selected':'';
   return `<div class="card${sel}" draggable="true" data-id="${p.id}" onclick="openPanel('${p.id}')">
     <div class="card-top">
-      <span class="card-pid">${p.pid}</span>
-      <span class="card-date">${p.date}</span>
+      <span class="card-pid">${data.pid}</span>
+      <span class="card-date">${data.date}</span>
     </div>
-    <div class="card-title">${p.title}</div>
-    <span class="card-type t-${p.type}">${p.type}</span>
+    <div class="card-title">${data.title}</div>
+    <span class="card-type t-${data.type}">${data.type}</span>
   </div>`;
 }
 
